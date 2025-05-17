@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+
 import { db } from "../db/db";
 
 async function getOrderNo(
@@ -18,12 +19,20 @@ async function getOrderNo(
 }
 
 async function createOrder(req: Request, res: Response) {
-    const { customer_id, payment_type, total } = req.body;
+    const { customer_id, payment_type, total, items } = req.body;
 
     const order = {
         no_order: getOrderNo(customer_id, payment_type, total),
-        id_customer: customer_id
-    }
+        id_customer: customer_id,
+        payment_type: payment_type,
+        items: items,
+        total: total,
+        status: "Order Diterima"
+    };
+
+    const fs = require("fs");
+
+    fs.writeFile("../database/customer_order", order, "utf8")
 }
 
 export { createOrder };
