@@ -33,6 +33,13 @@ async function createOrder(req: Request, res: Response) {
     const fs = require("fs");
 
     fs.writeFile("../database/customer_order", order, "utf8")
+
+    res.status(200).json({
+        message: "Order berhasil diproses",
+        result: {
+            "order_number": order.no_order,
+        }
+    })
 }
 
 export { createOrder };
